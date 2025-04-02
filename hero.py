@@ -1,9 +1,14 @@
 from character import Character
 from staminaFeature import StaminaManager
+import random
 
 class Hero(Character):
     def __init__(self):
         super().__init__()
+        self.character_class = self.assign_class()
+        self.assign_class_randomly()
+        print(f"Hero is a {self.character_class}")
+
         self.heroName = "Default Hero"
         self.storedHeroName = self.heroName
         self.previousHeroName = self.storedHeroName
@@ -80,3 +85,26 @@ class Hero(Character):
 
     def __del__(self):
         print(f"This object is being destroyed by the garbage collector.")
+
+    
+    def assign_class(self):
+        return random.choice(["Warrior","Theif","Mage","Tank"])
+    
+
+    def assign_class_randomly(self):
+        if self.character_class == "Warrior":
+            self.combat_strength += 2
+            self.spellPower += 20
+            self.health_points = max(0, self.health_points - 2)
+        elif self.character_class == "Thief":
+            self.combat_strength += 1
+            self.spellPower += 1
+            self.health_points = 2
+        elif self.character_class == "Mage":
+            self.combat_strength += 2
+            self.spellPower += 20
+            self.health_points = max(0, self.health_points - 2)
+        elif self.character_class == "Tank":
+            self.combat_strength = max(0, self.combat_strength - 1)
+            self.spellPower += 1
+            self.health_points = 5
