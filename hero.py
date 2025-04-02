@@ -1,5 +1,4 @@
 from character import Character
-from staminaFeature import StaminaManager
 
 class Hero(Character):
     def __init__(self):
@@ -16,14 +15,13 @@ class Hero(Character):
         self.specialAbility = "Power Strike"
         self.armorType = "Basic Armor"
         self.weaponType = "Basic Sword"
+        self.staminaPoints = 100
+        self.storedStamina = self.staminaPoints
         self.spellPower = 50
+        self.maximumStamina = 100
         self.maximumSpellPower = 100
         self.heroStatus = "Active"
         self.backupStatus = self.heroStatus
-
-        self.stamina = StaminaManager()
-        self.storedStamina = self.stamina.currentStamina
-        self.maximumStamina = self.stamina.maxStamina
 
     @property
     def hero_name(self):
@@ -35,6 +33,8 @@ class Hero(Character):
             self.previousHeroName = self.heroName
             self.heroName = name
             self.storedHeroName = self.heroName
+        else:
+            pass
 
     @property
     def hero_level(self):
@@ -46,6 +46,8 @@ class Hero(Character):
             self.previousLevel = self.heroLevel
             self.heroLevel = level
             self.storedLevel = self.heroLevel
+        else:
+            pass
 
     @property
     def experience_points(self):
@@ -57,20 +59,19 @@ class Hero(Character):
             self.totalXP += points
             self.storedXP = self.totalXP
             self.experiencePoints = points
+
             if self.experiencePoints >= 10:
                 self.level_up()
+        else:
+            pass
 
     def hero_attacks(self):
-        if not self.stamina.can_attack():
-            self.heroStatus = "Too Tired"
+        if self.staminaPoints <= 0:
             return
-        attackStrength = self.combat_strength + self.heroLevel
-        self.stamina.use_stamina(5)
-        self.storedStamina = self.stamina.currentStamina
 
-    def rest(self):
-        self.stamina.recover_stamina(10)
-        self.storedStamina = self.stamina.currentStamina
+        attackStrength = self.combat_strength + self.heroLevel
+        self.staminaPoints = max(0, self.staminaPoints - 5)
+        self.storedStamina = self.staminaPoints
 
     def level_up(self):
         self.heroLevel += 1
@@ -80,3 +81,4 @@ class Hero(Character):
 
     def __del__(self):
         print(f"This object is being destroyed by the garbage collector.")
+
