@@ -1,5 +1,6 @@
 # Import the random library to use for the dice later
 import random
+import tempBuffs
 
 # Will the line below print when you import function.py into main.py?
 # print("Inside function.py")
@@ -17,6 +18,10 @@ def use_loot(belt, health_points):
     elif first_item in bad_loot_options:
         health_points = max(0, (health_points - 2))
         print("    |    You used " + first_item + " to hurt your health to " + str(health_points))
+    elif first_item == "HP Boost Elixir":
+        tempBuffs.healthBoost = True                
+    elif first_item == "ATK Boost Tonic":        
+        tempBuffs.combatBoost = True              
     else:
         print("    |    You used " + first_item + " but it's not helpful")
     return belt, health_points
@@ -172,5 +177,3 @@ def adjust_combat_strength(combat_strength, m_combat_strength):
             print("    |    ... Increasing the hero's combat strength since you lost last time")
         else:
             print("    |    ... Based on your previous game, neither the hero nor the monster's combat strength will be increased")
-
-

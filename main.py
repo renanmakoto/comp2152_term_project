@@ -3,6 +3,7 @@ import random
 
 # Put all the functions into another file and import them
 import functions
+import tempBuffs
 
 import os
 import platform
@@ -18,7 +19,7 @@ big_dice_options = list(range(1, 21))
 weapons = ["Fist", "Knife", "Club", "Gun", "Bomb", "Nuclear Bomb"]
 
 # Define the Loot
-loot_options = ["Health Potion", "Poison Potion", "Secret Note", "Leather Boots", "Flimsy Gloves"]
+loot_options = ["Health Potion", "Poison Potion", "Secret Note", "Leather Boots", "Flimsy Gloves", "HP Boost Elixir", "ATK Boost Tonic"]
 belt = []
 
 # Define the Monster's Powers
@@ -111,7 +112,7 @@ if not input_invalid:
     print("    |", end="    ")
     input("Roll the dice for your health points (Press enter)")
     health_points = random.choice(big_dice_options)
-    print("    |    Player rolled " + str(health_points) + " health points")
+    print("    |    Player rolled " + str(health_points) + " health points")    
 
     # Roll for monster health points
     print("    |", end="    ")
@@ -140,6 +141,8 @@ if not input_invalid:
 
     # Use Loot
     belt, health_points = functions.use_loot(belt, health_points)
+    combat_strength += tempBuffs.temp_ATK_boost()
+    health_points += tempBuffs.temp_HP_boost()
 
     print("    ------------------------------------------------------------------")
     print("    |", end="    ")
@@ -273,5 +276,4 @@ if not input_invalid:
         print("    |    Hero " + short_name + " gets <" + stars_display + "> stars")
 
         functions.save_game(winner, hero_name=short_name, num_stars=num_stars)       
-
 
