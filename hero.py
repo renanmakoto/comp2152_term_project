@@ -88,7 +88,7 @@ class Hero(Character):
 
     
     def assign_class(self):
-        return random.choice(["Warrior","Theif","Mage","Tank"])
+        return random.choice(["Warrior","Thief","Mage","Tank"])
     
 
     def assign_class_randomly(self):
@@ -108,3 +108,23 @@ class Hero(Character):
             self.combat_strength = max(0, self.combat_strength - 1)
             self.spellPower += 1
             self.health_points = 5
+
+
+    def special_abilities(self):
+        print("    |    Activating Special Ability")
+        if self.character_class == "Mage":
+            print("    |    casts a Fire and burns everything around")
+        elif self.character_class == "Tank":
+            print("    |    blocks the attack and regains 2 health")
+            self.health_points += 2
+        elif self.character_class == "Thief":
+            print("    |    disappears into the shadows")
+            self.combat_strength += 1
+        elif self.character_class == "Warrior":
+            print("    |    strength goes up big time")
+            self.combat_strength += 2
+        else:
+            print("    |    You don't have any abilities yet.")
+
+
+
