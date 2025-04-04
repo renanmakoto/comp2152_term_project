@@ -4,6 +4,8 @@ import random
 # Put all the functions into another file and import them
 import functions
 
+from dungeonFeature import explore_dungeon
+
 import os
 import platform
 
@@ -175,6 +177,16 @@ if not input_invalid:
     m_combat_strength += min(6, m_combat_strength + monster_powers[power_roll])
     print("    |    The monster's combat strength is now " + str(
         m_combat_strength) + " using the " + power_roll + " magic power")
+
+    # Ask player to enter dungeon (dungeonFeature.py)
+    while True:
+        explore = input("    |    Do you want to explore a random dungeon before the fight? (yes/no): ").strip().lower()
+        if explore in ["yes", "no"]:
+            break
+        print("    |    Invalid input. Please type 'yes' or 'no'.")
+
+    if explore == "yes":
+        belt, health_points, combat_strength = explore_dungeon(belt, health_points, combat_strength)
 
     # Lab Week 06 - Question 6
     num_dream_lvls = -1 # Initialize the number of dream levels

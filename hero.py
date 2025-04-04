@@ -1,8 +1,14 @@
 from character import Character
+from staminaFeature import StaminaManager
+import random
 
 class Hero(Character):
     def __init__(self):
         super().__init__()
+        self.character_class = self.assign_class()
+        self.assign_class_randomly()
+        print(f"Hero is a {self.character_class}")
+
         self.heroName = "Default Hero"
         self.storedHeroName = self.heroName
         self.previousHeroName = self.storedHeroName
@@ -15,13 +21,15 @@ class Hero(Character):
         self.specialAbility = "Power Strike"
         self.armorType = "Basic Armor"
         self.weaponType = "Basic Sword"
-        self.staminaPoints = 100
-        self.storedStamina = self.staminaPoints
         self.spellPower = 50
-        self.maximumStamina = 100
         self.maximumSpellPower = 100
         self.heroStatus = "Active"
         self.backupStatus = self.heroStatus
+
+        # Stamina Feature (merged from both branches)
+        self.stamina = StaminaManager()
+        self.storedStamina = self.stamina.currentStamina
+        self.maximumStamina = self.stamina.maxStamina
 
     @property
     def hero_name(self):
@@ -33,8 +41,6 @@ class Hero(Character):
             self.previousHeroName = self.heroName
             self.heroName = name
             self.storedHeroName = self.heroName
-        else:
-            pass
 
     @property
     def hero_level(self):
@@ -46,8 +52,6 @@ class Hero(Character):
             self.previousLevel = self.heroLevel
             self.heroLevel = level
             self.storedLevel = self.heroLevel
-        else:
-            pass
 
     @property
     def experience_points(self):
@@ -59,19 +63,20 @@ class Hero(Character):
             self.totalXP += points
             self.storedXP = self.totalXP
             self.experiencePoints = points
-
             if self.experiencePoints >= 10:
                 self.level_up()
-        else:
-            pass
 
     def hero_attacks(self):
-        if self.staminaPoints <= 0:
+        if not self.stamina.can_attack():
+            self.heroStatus = "Too Tired"
             return
-
         attackStrength = self.combat_strength + self.heroLevel
-        self.staminaPoints = max(0, self.staminaPoints - 5)
-        self.storedStamina = self.staminaPoints
+        self.stamina.use_stamina(5)
+        self.storedStamina = self.stamina.currentStamina
+
+    def rest(self):
+        self.stamina.recover_stamina(10)
+        self.storedStamina = self.stamina.currentStamina
 
     def level_up(self):
         self.heroLevel += 1
@@ -79,6 +84,26 @@ class Hero(Character):
         self.experiencePoints = 0
         self.combat_strength += 1
 
-    def __del__(self):
-        print(f"This object is being destroyed by the garbage collector.")
+    def assign_class(self):
+        return random.choice(["Warrior", "Thief", "Mage", "Tank"])
 
+    def assign_class_randomly(self):
+        if self.character_class == "Warrior":
+            self.combat_strength += 2
+            self.spellPower += 20
+            self.health_points = max(0, self.health_points - 2)
+        elif self.character_class == "Thief":
+            self.combat_strength += 1
+            self.spellPower += 1
+            self.health_points = 2
+        elif self.character_class == "Mage":
+            self.combat_strength += 2
+            self.spellPower += 20
+            self.health_points = max(0, self.health_points - 2)
+        elif self.character_class == "Tank":
+            self.combat_strength = max(0, self.combat_strength - 1)
+            self.spellPower += 1
+            self.health_points = 5
+
+    def __del__(self):
+        print("This object is being destroyed by the garbage collector.")
