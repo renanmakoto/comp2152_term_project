@@ -5,9 +5,6 @@ import random
 class Hero(Character):
     def __init__(self):
         super().__init__()
-        self.character_class = self.assign_class()
-        self.assign_class_randomly()
-        print(f"Hero is a {self.character_class}")
 
         self.heroName = "Default Hero"
         self.storedHeroName = self.heroName
@@ -27,8 +24,13 @@ class Hero(Character):
         self.backupStatus = self.heroStatus
 
         self.stamina = StaminaManager()
-        self.storedStamina = self.stamina.currentStamina
+        self.storedStamina = self.stamina.stamina
         self.maximumStamina = self.stamina.maxStamina
+
+        self.character_class = self.assign_class()
+        self.assign_class_randomly()
+        print(f"Hero is a {self.character_class}")
+
 
     @property
     def hero_name(self):
@@ -66,16 +68,16 @@ class Hero(Character):
                 self.level_up()
 
     def hero_attacks(self):
-        if not self.stamina.can_attack():
+        if not self.stamina.performAction("attack"):
             self.heroStatus = "Too Tired"
+            print("    |    Hero is too tired to attack.")
             return
-        attackStrength = self.combat_strength + self.heroLevel
-        self.stamina.use_stamina(5)
-        self.storedStamina = self.stamina.currentStamina
+        print("    |    Hero attacks with full force!")
 
     def rest(self):
-        self.stamina.recover_stamina(10)
-        self.storedStamina = self.stamina.currentStamina
+        self.stamina.rest(10)
+        print("    |    Hero takes a break and recovers stamina.")
+
 
     def level_up(self):
         self.heroLevel += 1

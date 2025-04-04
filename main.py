@@ -6,6 +6,8 @@ import functions
 
 import os
 import platform
+from hero import Hero
+
 
 print(f"This computer's operating system is: {os.name}")
 print(f"This Python version is: {platform.python_version()}")
@@ -13,6 +15,9 @@ print(f"This Python version is: {platform.python_version()}")
 # Define two Dice
 small_dice_options = list(range(1, 7))
 big_dice_options = list(range(1, 21))
+
+h = Hero()
+h.special_abilities()
 
 # Define the Weapons
 weapons = ["Fist", "Knife", "Club", "Gun", "Bomb", "Nuclear Bomb"]
