@@ -69,6 +69,7 @@ class Hero(Character):
         if self.staminaPoints <= 0:
             return
 
+        attackStrength = self.combat_strength + self.heroLevel
         self.staminaPoints = max(0, self.staminaPoints - 5)
         self.storedStamina = self.staminaPoints
 
