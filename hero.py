@@ -81,4 +81,3 @@ class Hero(Character):
 
     def __del__(self):
         print(f"This object is being destroyed by the garbage collector.")
-
