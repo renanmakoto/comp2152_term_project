@@ -25,8 +25,6 @@ class Hero(Character):
         self.maximumSpellPower = 100
         self.heroStatus = "Active"
         self.backupStatus = self.heroStatus
-
-        # Stamina Feature (merged from both branches)
         self.stamina = StaminaManager()
         self.storedStamina = self.stamina.currentStamina
         self.maximumStamina = self.stamina.maxStamina
